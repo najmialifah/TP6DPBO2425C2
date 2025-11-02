@@ -68,5 +68,6 @@ GamePlay
 
 GameOver
 
-<img width="431" height="788" alt="image" src="https://github.com/user-attachments/assets/90e2f47f-4d7f-4a1a-951a-2c86a4006ddd" />
+<img width="438" height="788" alt="image" src="https://github.com/user-attachments/assets/bfa1cd11-d016-4948-99e6-b619d87b26db" />
+
 
