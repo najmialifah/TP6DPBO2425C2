@@ -56,9 +56,14 @@ Jika burung menyentuh pipa atau jatuh ke bawah, permainan berhenti dan menampilk
 
 ## Dokumentasi
 Menu Utama
+
 <img width="431" height="790" alt="image" src="https://github.com/user-attachments/assets/c48bc025-4d99-443f-ba80-b3d5b233e4ff" />
+
 GamePlay
+
 <img width="432" height="791" alt="image" src="https://github.com/user-attachments/assets/48226acd-3c85-4fbd-b7e9-00971b21683f" />
+
 GameOver
+
 <img width="431" height="788" alt="image" src="https://github.com/user-attachments/assets/90e2f47f-4d7f-4a1a-951a-2c86a4006ddd" />
 
