@@ -33,8 +33,10 @@ public class Logic implements ActionListener, KeyListener {
 
     boolean gameOver = false;
     boolean started = false; // burung mulai jatuh setelah tekan space
-    int score = 12;
+    int score = 0;
     JLabel scoreLabel;
+
+    JButton backToMenuButton; // tombol kembali ke menu
 
     public Logic() {
         backgroundImage = new ImageIcon(getClass().getResource("assets/background.png")).getImage();
@@ -48,6 +50,21 @@ public class Logic implements ActionListener, KeyListener {
         scoreLabel = new JLabel("Score: 0");
         scoreLabel.setFont(new Font("Arial", Font.BOLD, 20));
         scoreLabel.setForeground(Color.WHITE);
+
+        // tombol kembali ke menu (belum ditampilkan dulu)
+        backToMenuButton = new JButton("Kembali ke Menu");
+        backToMenuButton.setFont(new Font("Arial", Font.BOLD, 14));
+        backToMenuButton.setBounds(100, 380, 160, 35);
+        backToMenuButton.setBackground(new Color(255, 230, 200));
+        backToMenuButton.setFocusPainted(false);
+        backToMenuButton.setVisible(false);
+        backToMenuButton.addActionListener(e -> {
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(view);
+            if (frame != null) {
+                frame.dispose();
+                App.main(null); // balik ke menu utama
+            }
+        });
 
         pipesCooldown = new Timer(1500, e -> {
             if (!gameOver) placePipes();
@@ -63,6 +80,7 @@ public class Logic implements ActionListener, KeyListener {
         this.view.setLayout(null);
         this.scoreLabel.setBounds(10, 10, 150, 30);
         this.view.add(scoreLabel);
+        this.view.add(backToMenuButton); // tombol ditambahkan ke view
     }
 
     public Player getPlayer() {
@@ -100,24 +118,21 @@ public class Logic implements ActionListener, KeyListener {
     public void move() {
         if (gameOver) return;
 
-        // burung mulai jatuh hanya setelah tekan space pertama
         if (started) {
             player.setVelocityY(player.getVelocityY() + gravity);
             player.setPosY(player.getPosY() + player.getVelocityY());
             player.setPosY(Math.max(player.getPosY(), 0));
         }
 
-        // deteksi jatuh
         if (player.getPosY() + player.getHeight() >= frameHeight) {
             gameOver = true;
             stopGame();
+            showBackButton();
         }
 
-        // pipa jalan terus, bahkan sebelum game dimulai
         for (Pipe pipe : pipes) {
             pipe.setPosX(pipe.getPosX() + pipeVelocityX);
 
-            // deteksi tabrakan (hanya jika game sudah dimulai)
             if (started &&
                     player.getPosX() < pipe.getPosX() + pipe.getWidth() &&
                     player.getPosX() + player.getWidth() > pipe.getPosX() &&
@@ -125,9 +140,9 @@ public class Logic implements ActionListener, KeyListener {
                     player.getPosY() + player.getHeight() > pipe.getPosY()) {
                 gameOver = true;
                 stopGame();
+                showBackButton();
             }
 
-            // tambah skor
             if (!pipe.passed && pipe.getPosX() + pipe.getWidth() < player.getPosX()) {
                 pipe.passed = true;
                 if (started) {
@@ -136,6 +151,14 @@ public class Logic implements ActionListener, KeyListener {
                 }
             }
         }
+    }
+
+    private void showBackButton() {
+        SwingUtilities.invokeLater(() -> backToMenuButton.setVisible(true));
+    }
+
+    private void hideBackButton() {
+        backToMenuButton.setVisible(false);
     }
 
     private void stopGame() {
@@ -152,6 +175,7 @@ public class Logic implements ActionListener, KeyListener {
         player.setPosY(playerStartPosY);
         player.setVelocityY(0);
         pipes.clear();
+        hideBackButton(); // tombol hilang saat restart
         gameLoop.start();
         pipesCooldown.start();
     }
