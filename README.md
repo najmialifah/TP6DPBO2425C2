@@ -43,8 +43,11 @@ Background menu menggunakan gambar `assets/background.png`.
 
 ## Cara Menjalankan Program
 Gunakan kontrol berikut:
+
 SPACE → Melompat
+
 R → Restart setelah Game Over
+
 Exit → Menutup game dari menu awal
 
 ## Mekanisme Game
